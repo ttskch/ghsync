@@ -1,0 +1,38 @@
+{
+  "name": "ghsync",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "source .env >/dev/null 2>&1 && nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lt": "lt --port 4949"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ttskch/ghsync.git"
+  },
+  "keywords": [
+    "git",
+    "github",
+    "auto commit",
+    "auto push",
+    "auto pull",
+    "sync"
+  ],
+  "author": "ttskch",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ttskch/ghsync/issues"
+  },
+  "homepage": "https://github.com/ttskch/ghsync#readme",
+  "dependencies": {
+    "chokidar": "^1.6.0",
+    "config": "^1.21.0",
+    "github-webhook-handler": "^0.4.0",
+    "lodash": "^4.16.4"
+  },
+  "devDependencies": {
+    "localtunnel": "^1.8.1"
+  }
+}

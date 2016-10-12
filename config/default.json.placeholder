@@ -1,0 +1,5 @@
+{
+  "repos": {
+    "owner/repo": "/path/to/local/repo"
+  }
+}
