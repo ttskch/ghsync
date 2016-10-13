@@ -8,6 +8,8 @@ var exec = require('child_process').exec;
 var chokidar = require('chokidar');
 var _ = require('lodash');
 
+var hasError = false;
+
 // auto pull.
 
 http.createServer(function (req, res) {
@@ -25,7 +27,10 @@ handler.on('push', function (event) {
             exec(cmd, function (err, stdout, stderr) {
                 console.log(stdout);
                 if (err) {
+                    hasError = true;
                     console.log(stderr, err);
+                } else {
+                    hasError = false;
                 }
             });
         }
@@ -54,7 +59,15 @@ _.forEach(watchers, function (watcher, rootPath) {
                     count++;
                     console.log(count);
                     setTimeout(function () {
-                        if (count === 1) {
+                        count--;
+                        console.log(count);
+
+                        if (count === 0) {
+                            // if some errors is occurring on local repo, don't auto push.
+                            if (hasError) {
+                                return;
+                            }
+
                             console.log(cmd);
                             exec(cmd, function (err, stdout, stderr) {
                                 console.log(stdout);
@@ -63,8 +76,6 @@ _.forEach(watchers, function (watcher, rootPath) {
                                 }
                             });
                         }
-                        count--;
-                        console.log(count);
                     }, 1000 * (process.env.PUSH_INTERVAL_SEC || 30));
                     console.log(event, path);
                 })
