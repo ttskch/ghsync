@@ -24,7 +24,7 @@ http.createServer(function (req, res) {
 
 handler.on('push', function (event) {
     config.get('repos').forEach(function (repo) {
-        if (event.payload.repository.full_name === repo.name) {
+        if (event.payload.repository.full_name === repo.remote) {
             var cmd = 'cd ' + repo.local + ' && git pull origin master --no-edit';
             console.log(cmd);
             exec(cmd, function (err, stdout, stderr) {
