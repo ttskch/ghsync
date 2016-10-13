@@ -1,5 +1,6 @@
 'use strict';
 
+require('dotenv').config();
 var config = require('config');
 var http = require('http');
 var handler = require('github-webhook-handler')({path: '/', secret: process.env.WEBHOOK_SECRET});

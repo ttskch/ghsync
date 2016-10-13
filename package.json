@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "source .env >/dev/null 2>&1 && nodemon index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lt": "lt --port 4949"
   },
@@ -29,6 +30,7 @@
   "dependencies": {
     "chokidar": "^1.6.0",
     "config": "^1.21.0",
+    "dotenv": "^2.0.0",
     "github-webhook-handler": "^0.4.0",
     "lodash": "^4.16.4"
   },
