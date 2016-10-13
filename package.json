@@ -33,6 +33,7 @@
     "lodash": "^4.16.4"
   },
   "devDependencies": {
-    "localtunnel": "^1.8.1"
+    "localtunnel": "^1.8.1",
+    "nodemon": "^1.11.0"
   }
 }
