@@ -1,9 +1,8 @@
 'use strict';
 
-require('dotenv').config();
 var config = require('config');
 var http = require('http');
-var handler = require('github-webhook-handler')({path: '/', secret: process.env.WEBHOOK_SECRET});
+var handler = require('github-webhook-handler')({path: '/', secret: config.webhook.secret});
 var exec = require('child_process').exec;
 var chokidar = require('chokidar');
 var nodemailer = require('nodemailer');
@@ -20,7 +19,7 @@ http.createServer(function (req, res) {
         res.statusCode = 404;
         res.end('no such location');
     });
-}).listen(process.env.WEBHOOK_PORT || 4949);
+}).listen(config.webhook.port || 4949);
 
 handler.on('push', function (event) {
     _.forEach(config.get('repos'), function (path, repo) {
@@ -34,7 +33,7 @@ handler.on('push', function (event) {
                     console.log(stderr);
 
                     if (config.sendmail.enabled) {
-                        sendmail(path, stderr);
+                        sendmail(path, stdout, stderr);
                     }
                 } else {
                     hasError = false;
@@ -44,12 +43,12 @@ handler.on('push', function (event) {
     });
 });
 
-function sendmail(path, stderr) {
+function sendmail(path, stdout, stderr) {
     transporter.sendMail({
         from: config.sendmail.options.from,
         to: config.sendmail.options.to,
         subject: config.sendmail.options.subject_prefix + 'Error occurred in auto git-pull',
-        text: '[path]\n' + path + '\n\n' + '[stderr]\n' + stderr
+        text: '[path]\n' + path + '\n\n[stdout]\n' + stdout.trim() + '\n\n[stderr]\n' + stderr
     }, function (err, res) {
         if (err) {
             console.log(err);
@@ -79,11 +78,11 @@ _.forEach(watchers, function (watcher, rootPath) {
                 .on('all', function (event, path) {
                     // cmd will be executed only once after the last event.
                     count++;
-                    console.log('stacked events: ', count);
+                    console.log('stacked events:', count);
 
                     setTimeout(function () {
                         count--;
-                        console.log('stacked events: ', count);
+                        console.log('stacked events:', count);
 
                         if (count === 0) {
                             // if some errors is occurring on local repo, don't auto push.
@@ -99,7 +98,7 @@ _.forEach(watchers, function (watcher, rootPath) {
                                 }
                             });
                         }
-                    }, 1000 * (process.env.PUSH_INTERVAL_SEC || 30));
+                    }, 1000 * (config.commit_interval || 30));
                     console.log(event, path);
                 })
             ;

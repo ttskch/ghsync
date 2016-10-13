@@ -20,9 +20,13 @@ Subject: [ghsync] Error occurred in auto git-pull
 [path]
 /path/to/local/repo
 
+[stdout]
+Auto-merging 1
+CONFLICT (content): Merge conflict in 1
+Automatic merge failed; fix conflicts and then commit the result.
+
 [stderr]
-error: Pull is not possible because you have unmerged files.
-hint: Fix them up in the work tree, and then use 'git add/rm <file>'
-hint: as appropriate to mark resolution and make a commit.
-fatal: Exiting because of an unresolved conflict.
+From github.com:owner/repo
+ * branch            master     -> FETCH_HEAD
+   1c35585..759c171  master     -> origin/master
 ```

@@ -3,6 +3,11 @@
     "owner/repo": "/path/to/local/repo",
     "owner/repo": "/path/to/local/repo"
   },
+  "webhook": {
+    "secret": "use same secrets for all repos",
+    "port": 4949
+  },
+  "commit_interval": 30,
   "sendmail": {
     "enabled": true,
     "smtp": {
