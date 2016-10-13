@@ -57,10 +57,11 @@ _.forEach(watchers, function (watcher, rootPath) {
                 .on('all', function (event, path) {
                     // cmd will be executed only once after the last event.
                     count++;
-                    console.log(count);
+                    console.log('stacked events: ', count);
+
                     setTimeout(function () {
                         count--;
-                        console.log(count);
+                        console.log('stacked events: ', count);
 
                         if (count === 0) {
                             // if some errors is occurring on local repo, don't auto push.
