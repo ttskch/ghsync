@@ -2,12 +2,13 @@
 
 var config = require('config');
 var http = require('http');
-var handler = require('github-webhook-handler')({path: '/', secret: config.webhook.secret});
+var handler = require('github-webhook-handler')({path: '/', secret: config.get('webhook.secret')});
 var exec = require('child_process').exec;
 var chokidar = require('chokidar');
+var path = require('path');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var transporter = nodemailer.createTransport(smtpTransport(config.sendmail.smtp));
+var transporter = nodemailer.createTransport(smtpTransport(config.get('sendmail.smtp')));
 var _ = require('lodash');
 
 var hasError = false;
@@ -19,12 +20,12 @@ http.createServer(function (req, res) {
         res.statusCode = 404;
         res.end('no such location');
     });
-}).listen(config.webhook.port || 4949);
+}).listen(config.get('webhook.port') || 4949);
 
 handler.on('push', function (event) {
-    _.forEach(config.get('repos'), function (path, repo) {
-        if (event.payload.repository.full_name === repo) {
-            var cmd = 'cd ' + path + ' && git pull origin master --no-edit';
+    config.get('repos').forEach(function (repo) {
+        if (event.payload.repository.full_name === repo.name) {
+            var cmd = 'cd ' + repo.local + ' && git pull origin master --no-edit';
             console.log(cmd);
             exec(cmd, function (err, stdout, stderr) {
                 console.log(stdout);
@@ -32,8 +33,8 @@ handler.on('push', function (event) {
                     hasError = true;
                     console.log(stderr);
 
-                    if (config.sendmail.enabled) {
-                        sendmail(path, stdout, stderr);
+                    if (config.get('sendmail.enabled')) {
+                        sendmail(repo.local, stdout, stderr);
                     }
                 } else {
                     hasError = false;
@@ -45,9 +46,9 @@ handler.on('push', function (event) {
 
 function sendmail(path, stdout, stderr) {
     transporter.sendMail({
-        from: config.sendmail.options.from,
-        to: config.sendmail.options.to,
-        subject: config.sendmail.options.subject_prefix + 'Error occurred in auto git-pull',
+        from: config.get('sendmail.options.from'),
+        to: config.get('sendmail.options.to'),
+        subject: config.get('sendmail.options.subjectPrefix') + 'Error occurred in auto git-pull',
         text: '[path]\n' + path + '\n\n[stdout]\n' + stdout.trim() + '\n\n[stderr]\n' + stderr
     }, function (err, res) {
         if (err) {
@@ -62,9 +63,11 @@ function sendmail(path, stdout, stderr) {
 
 var watchers = {};
 
-_.values(config.get('repos')).forEach(function (path) {
-    watchers[path] = chokidar.watch(path, {
-        ignored: /[\/\\]\./,
+config.get('repos').forEach(function (repo) {
+    watchers[repo.local] = chokidar.watch(repo.local, {
+        ignored: [/[\/\\]\./].concat(repo.ignores.map(function (v) {
+            return path.resolve(repo.local, v);
+        })),
         awaitWriteFinish: true
     });
 });
@@ -98,7 +101,7 @@ _.forEach(watchers, function (watcher, rootPath) {
                                 }
                             });
                         }
-                    }, 1000 * (config.commit_interval || 30));
+                    }, 1000 * (config.get('commitInterval') || 30));
                     console.log(event, path);
                 })
             ;

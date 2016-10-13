@@ -1,13 +1,19 @@
 {
-  "repos": {
-    "owner/repo": "/path/to/local/repo",
-    "owner/repo": "/path/to/local/repo"
-  },
+  "repos": [
+    {
+      "remote": "owner/repo",
+      "local": "/path/to/local/repo",
+      "ignores": [
+        "path/to/dir/or/file/to/be/ignored",
+        "/absolute/path/is/also/allowed"
+      ]
+    }
+  ],
   "webhook": {
     "secret": "use same secrets for all repos",
     "port": 4949
   },
-  "commit_interval": 30,
+  "commitInterval": 30,
   "sendmail": {
     "enabled": true,
     "smtp": {
@@ -22,7 +28,7 @@
     "options": {
       "from": "user@gmail.com",
       "to": "notified@example.com",
-      "subject_prefix": "[ghsync] "
+      "subjectPrefix": "[ghsync] "
     }
   }
 }
