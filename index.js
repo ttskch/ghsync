@@ -6,6 +6,9 @@ var http = require('http');
 var handler = require('github-webhook-handler')({path: '/', secret: process.env.WEBHOOK_SECRET});
 var exec = require('child_process').exec;
 var chokidar = require('chokidar');
+var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
+var transporter = nodemailer.createTransport(smtpTransport(config.sendmail.smtp));
 var _ = require('lodash');
 
 var hasError = false;
@@ -28,7 +31,11 @@ handler.on('push', function (event) {
                 console.log(stdout);
                 if (err) {
                     hasError = true;
-                    console.log(stderr, err);
+                    console.log(stderr);
+
+                    if (config.sendmail.enabled) {
+                        sendmail(path, stderr);
+                    }
                 } else {
                     hasError = false;
                 }
@@ -36,6 +43,21 @@ handler.on('push', function (event) {
         }
     });
 });
+
+function sendmail(path, stderr) {
+    transporter.sendMail({
+        from: config.sendmail.options.from,
+        to: config.sendmail.options.to,
+        subject: config.sendmail.options.subject_prefix + 'Error occurred in auto git-pull',
+        text: '[path]\n' + path + '\n\n' + '[stderr]\n' + stderr
+    }, function (err, res) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('email notification sent');
+        }
+    });
+}
 
 // auto push.
 

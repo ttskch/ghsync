@@ -1,5 +1,23 @@
 {
   "repos": {
+    "owner/repo": "/path/to/local/repo",
     "owner/repo": "/path/to/local/repo"
+  },
+  "sendmail": {
+    "enabled": true,
+    "smtp": {
+      "host": "smtp.gmail.com",
+      "port": 465,
+      "secure": true,
+      "auth": {
+        "user": "user@gmail.com",
+        "pass": "pass"
+      }
+    },
+    "options": {
+      "from": "user@gmail.com",
+      "to": "notified@example.com",
+      "subject_prefix": "[ghsync] "
+    }
   }
 }
