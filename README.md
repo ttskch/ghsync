@@ -26,7 +26,7 @@ This tool requires local git version [1.7.9.6](https://git-scm.com/docs/git-pull
 $ npm install -g ghsync
 ```
 
-if you install with sudo `--unsafe-perm` is required to generate config file after installation automatically.
+If you install with sudo `--unsafe-perm` is required to generate config file after installation automatically.
 
 ```
 $ sudo npm install -g ghsync --unsafe-perm
