@@ -29,7 +29,7 @@ $ npm install -g ghsync
 if you install with sudo `--unsafe-perm` is required to generate config file after installation automatically.
 
 ```
-$ npm install -g ghsync --unsafe-perm
+$ sudo npm install -g ghsync --unsafe-perm
 ```
 
 ## Configuration
