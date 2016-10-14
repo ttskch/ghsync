@@ -27,7 +27,7 @@
     },
     "options": {
       "from": "user@gmail.com",
-      "to": "notified@example.com",
+      "to": "destination@example.com",
       "subjectPrefix": "[ghsync] "
     }
   }
