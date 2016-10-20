@@ -22,13 +22,13 @@ This tool requires local git version [1.7.9.6](https://git-scm.com/docs/git-pull
 
 ## Installation
 
-```
+```bash
 $ npm install -g ghsync
 ```
 
 If you install with sudo `--unsafe-perm` is required to generate config file after installation automatically.
 
-```
+```bash
 $ sudo npm install -g ghsync --unsafe-perm
 ```
 
@@ -36,7 +36,7 @@ $ sudo npm install -g ghsync --unsafe-perm
 
 After installation you have now `~/.ghsync/config/default.json` of configuration file with [initial content](config/default.json.placeholder). Tailor this file.
 
-```
+```bash
 $ vi ~/.ghsync/config/default.json
 ```
 
@@ -61,7 +61,7 @@ At first, configure webhook on GitHub.
 
 And start ghsync server on your server.
 
-```
+```bash
 $ ghsync run
 ```
 
@@ -100,7 +100,7 @@ After you push it, auto-pull runs because remote GitHub repository is updated ju
 
 You may want to run ghsync on background. You can use [Supervisor](http://supervisord.org/) or something to do that. But especially for Node.js script it's one of the easiest way to use [forever](https://github.com/foreverjs/forever).
 
-```
+```bash
 # install forever
 $ npm install -g forever
 
@@ -116,7 +116,7 @@ data:    [0] H7wO /usr/local/bin/node /usr/local/bin/ghsync run 59716   59726   
 
 You can stop daemon by like below.
 
-```
+```bash
 $ forever stop 0
 ```
 
