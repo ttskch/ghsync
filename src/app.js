@@ -13,7 +13,7 @@ var _ = require('lodash');
 
 module.exports = function (action, flags, showHelp) {
 
-    if (action.toLowerCase() !== 'run') {
+    if (!action || action.toLowerCase() !== 'run') {
         showHelp();
     }
 
