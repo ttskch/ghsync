@@ -1,7 +1,7 @@
 # ghsync
 
-[![npm version](https://img.shields.io/npm/v/ghsync.svg)](https://www.npmjs.com/package/ghsync)
-[![npm downloads](https://img.shields.io/npm/dm/ghsync.svg)](https://www.npmjs.com/package/ghsync)
+[![npm version](https://img.shields.io/npm/v/ghsync.svg?style=flat-square)](https://www.npmjs.com/package/ghsync)
+[![npm downloads](https://img.shields.io/npm/dm/ghsync.svg?style=flat-square)](https://www.npmjs.com/package/ghsync)
 
 This is a cli tool to sync local git repository and remote GitHub repository automatically.
 
