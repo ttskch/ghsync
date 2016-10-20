@@ -11,7 +11,7 @@
     "dev": "nodemon src/cli.js run",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lt": "lt --port 4949",
-    "postinstall": "mkdir -p ~/.ghsync/config && cp -i config/default.json.placeholder config/default.json ; ln -sf $(pwd)/config/default.json ~/.ghsync/config/default.json",
+    "postinstall": "mkdir -p ~/.ghsync/config && mv ~/.ghsync/config/default.json{,.bak} >/dev/null 2>&1 && cp config/default.json.placeholder ~/.ghsync/config/default.json && echo 'Please confirm the content of \"~/.ghsync/config/default.json\"\n\n'",
     "postuninstall": "rm -rf ~/.ghsync"
   },
   "repository": {
