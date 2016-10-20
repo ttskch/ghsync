@@ -62,7 +62,7 @@ At first, configure webhook on GitHub.
 And start ghsync server on your server.
 
 ```
-$ ghsync
+$ ghsync run
 ```
 
 That's it.
@@ -105,13 +105,13 @@ You may want to run ghsync on background. You can use [Supervisor](http://superv
 $ npm install -g forever
 
 # run ghsync via forever
-$ NODE_CONFIG_DIR=~/.ghsync/config forever start $(which ghsync)
+$ NODE_CONFIG_DIR=~/.ghsync/config forever start $(which ghsync) run
 
 # confirm process is running
 $ forever list
 info:    Forever processes running
-data:        uid  command             script                forever pid   id logfile                      uptime
-data:    [0] H7wO /usr/local/bin/node /usr/local/bin/ghsync 59716   59726    /home/user/.forever/H7wO.log 0:0:0:2.636
+data:        uid  command             script                    forever pid   id logfile                      uptime
+data:    [0] H7wO /usr/local/bin/node /usr/local/bin/ghsync run 59716   59726    /home/user/.forever/H7wO.log 0:0:0:2.636
 ```
 
 You can stop daemon by like below.

@@ -3,12 +3,12 @@
   "version": "0.0.5",
   "description": "Sync local git repository and remote GitHub repository automatically.",
   "bin": {
-    "ghsync": "index.js"
+    "ghsync": "src/cli.js"
   },
   "preferGlobal": true,
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "node src/cli.js run",
+    "dev": "nodemon src/cli.js run",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lt": "lt --port 4949",
     "postinstall": "mkdir -p ~/.ghsync/config && cp -i config/default.json.placeholder config/default.json ; ln -sf $(pwd)/config/default.json ~/.ghsync/config/default.json",
@@ -31,12 +31,13 @@
   "bugs": {
     "url": "https://github.com/ttskch/ghsync/issues"
   },
-  "homepage": "https://github.com/ttskch/ghsync#readme",
+  "homepage": "https://github.com/ttskch/ghsync",
   "dependencies": {
     "chokidar": "^1.6.0",
     "config": "^1.21.0",
     "github-webhook-handler": "^0.4.0",
     "lodash": "^4.16.4",
+    "meow": "^3.7.0",
     "nodemailer": "^2.6.4",
     "nodemailer-smtp-transport": "^2.7.2"
   },
