@@ -85,6 +85,11 @@ module.exports = function (action, flags, showHelp) {
                 var count = 0;
                 watcher
                     .on('all', function (event, path) {
+                        // if some errors is occurring on local repo, do nothing.
+                        if (hasError) {
+                            return;
+                        }
+
                         // cmd will be executed only once after the last event.
                         count++;
                         console.log('stacked events:', count);
@@ -94,11 +99,6 @@ module.exports = function (action, flags, showHelp) {
                             console.log('stacked events:', count);
 
                             if (count === 0) {
-                                // if some errors is occurring on local repo, don't auto push.
-                                if (hasError) {
-                                    return;
-                                }
-
                                 console.log(cmd);
                                 exec(cmd, function (err, stdout, stderr) {
                                     console.log(stdout);
