@@ -1,5 +1,6 @@
 'use strict';
 
+process.env.NODE_CONFIG_DIR = (process.env.HOME || process.env.USERPROFILE) + '/.ghsync/config';
 var config = require('config');
 var http = require('http');
 var handler = require('github-webhook-handler')({path: '/', secret: config.get('webhook.secret')});
