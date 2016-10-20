@@ -7,11 +7,11 @@
   },
   "preferGlobal": true,
   "scripts": {
-    "start": "node src/cli.js run",
-    "dev": "nodemon src/cli.js run",
+    "start": "NODE_CONFIG_DIR=./config node src/cli.js run",
+    "dev": "NODE_CONFIG_DIR=./config nodemon src/cli.js run",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lt": "lt --port 4949",
-    "postinstall": "mkdir -p ~/.ghsync/config && mv ~/.ghsync/config/default.json{,.bak} >/dev/null 2>&1 && cp config/default.json.placeholder ~/.ghsync/config/default.json && echo 'Please confirm the content of \"~/.ghsync/config/default.json\"\n\n'",
+    "postinstall": "cp -i config/default.json{.placeholder,} ; mkdir -p ~/.ghsync/config && cat ~/.ghsync/config/default.json > ~/.ghsync/config/default.json.bak 2>/dev/null ; ln -sf config/default.json ~/.ghsync/config/default.json && echo '\n\nPlease confirm the content of \"~/.ghsync/config/default.json\"\n\n'",
     "postuninstall": "rm -rf ~/.ghsync"
   },
   "repository": {
