@@ -105,7 +105,7 @@ You may want to run ghsync on background. You can use [Supervisor](http://superv
 $ npm install -g forever
 
 # run ghsync via forever
-$ NODE_CONFIG_DIR=~/.ghsync/config forever start $(which ghsync) run
+$ forever start $(which ghsync) run
 
 # confirm process is running
 $ forever list
