@@ -14,7 +14,7 @@ You can resolve this problem with ghsync.
 1. if your biz team edits files directly, ghsync automatically `git add`, `git commit` and `git push`.
 1. if your tech team pushes some commits to GitHub, ghsync catches the webhook and automatically `git pull`.
 
-Additionally, if some auto-push and auto-pull conflict, ghsync stops observing and sends you a notification email. So you don't have to worry about that ghsync destroys your codebase.
+Additionally, if some auto-push and auto-pull conflict, ghsync stops observing soon and sends you a notification email. So you don't have to worry about that ghsync destroys your codebase.
 
 ## Requirements
 
@@ -104,14 +104,16 @@ Subject: [ghsync] Error occurred in auto git-pull
 /path/to/local/repo
 
 [stdout]
-Auto-merging 1
-CONFLICT (content): Merge conflict in 1
-Automatic merge failed; fix conflicts and then commit the result.
+Updating 40a9764..dc47ada
 
 [stderr]
 From github.com:owner/repo
  * branch            master     -> FETCH_HEAD
-   1c35585..759c171  master     -> origin/master
+   40a9764..dc47ada  master     -> origin/master
+error: Your local changes to the following files would be overwritten by merge:
+        some/changed/file
+Please, commit your changes or stash them before you can merge.
+Aborting
 ```
 
 Then you should go to your server and resolve conflict by hand, and commit and push it.

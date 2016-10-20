@@ -77,7 +77,7 @@ config.get('repos').forEach(function (repo) {
 _.forEach(watchers, function (watcher, rootPath) {
     watcher
         .on('ready', function () {
-            var cmd = 'cd ' + rootPath + ' && git add . && git commit -m "Automatically committed" && git pull origin master --no-edit && git push origin master';
+            var cmd = 'cd ' + rootPath + ' && git pull origin master --no-edit && git add . && git commit -m "Automatically committed" && git push origin master';
             var count = 0;
             watcher
                 .on('all', function (event, path) {
@@ -99,7 +99,7 @@ _.forEach(watchers, function (watcher, rootPath) {
                             exec(cmd, function (err, stdout, stderr) {
                                 console.log(stdout);
                                 if (err) {
-                                    console.log(stderr, err);
+                                    console.log(stderr);
                                 }
                             });
                         }
