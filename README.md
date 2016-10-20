@@ -34,6 +34,8 @@ $ sudo npm install -g ghsync --unsafe-perm
 
 ## Configuration
 
+After installation you have now `~/.ghsync/config/default.json` of configuration file with [initial content](config/default.json.placeholder). Tailor this file.
+
 ```
 $ vi ~/.ghsync/config/default.json
 ```
