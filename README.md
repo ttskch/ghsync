@@ -69,32 +69,6 @@ That's it.
 
 When local git repository are directly edited ghsync commits it with message "Automatically committed". And When remote GitHub repository is updated ghsync pulls it soon.
 
-### Daemonize
-
-You may want to run ghsync background. It's an easy way for that to use [forever](https://github.com/foreverjs/forever).
-
-```
-# install forever
-$ npm install -g forever
-
-# run ghsync via forever
-$ NODE_CONFIG_DIR=~/.ghsync/config forever start $(which ghsync)
-
-# confirm process is running
-$ forever list
-info:    Forever processes running
-data:        uid  command             script                forever pid   id logfile                      uptime
-data:    [0] H7wO /usr/local/bin/node /usr/local/bin/ghsync 59716   59726    /home/user/.forever/H7wO.log 0:0:0:2.636
-```
-
-You can stop daemon by like below.
-
-```
-$ forever stop 0
-```
-
-Please learn more at [forever GitHub repository](https://github.com/foreverjs/forever).
-
 ### Email notification
 
 If some auto-push and auto-pull conflict, ghsync stops observing and sends you a notification email like below.
@@ -121,3 +95,29 @@ Aborting
 Then you should go to your server and resolve conflict by hand, and commit and push it.
 
 After you push it, auto-pull runs because remote GitHub repository is updated just now by you, and this pull will get successful. Then, ghsync starts observing again automatically.
+
+### Daemonize
+
+You may want to run ghsync on background. You can use [Supervisor](http://supervisord.org/) or something to do that. But especially for Node.js script it's one of the easiest way to use [forever](https://github.com/foreverjs/forever).
+
+```
+# install forever
+$ npm install -g forever
+
+# run ghsync via forever
+$ NODE_CONFIG_DIR=~/.ghsync/config forever start $(which ghsync)
+
+# confirm process is running
+$ forever list
+info:    Forever processes running
+data:        uid  command             script                forever pid   id logfile                      uptime
+data:    [0] H7wO /usr/local/bin/node /usr/local/bin/ghsync 59716   59726    /home/user/.forever/H7wO.log 0:0:0:2.636
+```
+
+You can stop daemon by like below.
+
+```
+$ forever stop 0
+```
+
+Please learn more at [forever GitHub repository](https://github.com/foreverjs/forever).
