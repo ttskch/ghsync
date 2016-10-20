@@ -53,6 +53,14 @@ $ vi ~/.ghsync/config/default.json
 * Commit interval (When many files are directly edited at one time, ghsync waits a moment to `git commit` so that prevents creating many commits uselessly)
 * Email notification related settings
 
+## Updating
+
+After update ghsync via npm, unfortunately `~/.ghsync/config/default.json` is regenerated with initial content. But old configuration is backed up as `~/.ghsync/config/default.json.bak` so please copy the content like below **unless the structure of json isn't changed**.
+ 
+ ```bash
+  $ cat ~/.ghsync/config/default.json.bak > ~/.ghsync/config/default.json
+  ```
+ 
 ## Usage
 
 At first, configure webhook on GitHub.
