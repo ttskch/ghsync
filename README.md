@@ -67,11 +67,11 @@ $ ghsync run
 
 That's it.
 
-When local git repository are directly edited ghsync commits it with message "Automatically committed". And When remote GitHub repository is updated ghsync pulls it soon.
+When local git repository is directly edited ghsync commits it with message "Automatically committed". And When remote GitHub repository is updated ghsync pulls it soon.
 
 ### Email notification
 
-If some auto-push and auto-pull conflict, ghsync stops observing and sends you a notification email like below.
+If some auto-push and auto-pull conflict, ghsync stops observing soon and sends you a notification email like below.
 
 ```
 Subject: [ghsync] Error occurred in auto git-pull
@@ -94,7 +94,7 @@ Aborting
 
 Then you should go to your server and resolve conflict by hand, and commit and push it.
 
-After you push it, auto-pull runs because remote GitHub repository is updated just now by you, and this pull will get successful. Then, ghsync starts observing again automatically.
+After you push it, auto-pull runs because remote GitHub repository is updated just now by you, and this pulling will get successful. Then, ghsync starts observing again automatically.
 
 ### Daemonize
 
