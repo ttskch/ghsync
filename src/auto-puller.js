@@ -3,7 +3,8 @@
 var exec = require('child_process').exec;
 var notifier = require('./notifier');
 
-module.exports.pull = function (event) {
+module.exports.autoPull = function (event) {
+    
     global.config.get('repos').forEach(function (repo) {
         if (event.payload.repository.full_name === repo.remote) {
             var cmd = 'cd ' + repo.local + ' && git pull origin master --no-edit';
