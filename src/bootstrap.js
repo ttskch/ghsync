@@ -1,6 +1,6 @@
 'use strict';
 
-global.config = require('./config')();
+global.config = require('./config');
 global.hasError = false;
 
 var http = require('http');

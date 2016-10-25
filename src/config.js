@@ -3,26 +3,19 @@
 if (!process.env.NODE_CONFIG_DIR) {
     process.env.NODE_CONFIG_DIR = (process.env.HOME || process.env.USERPROFILE) + '/.ghsync/config';
 }
+var baseConfig = require('config');
 
-var Config = function (config) {
-    this.config = config;
+var Config = function () {
 };
 
 Config.prototype = {
     get: function (property) {
         try {
-            return this.config.get(property);
+            return baseConfig.get(property);
         } catch (e) {
             throw new Error('Cannot get "' + property + '" from config. Please confirm schema of config. You can see the correct schema in "~/.ghsync/config/default.json.placeholder".');
         }
     }
 };
 
-module.exports = function (config) {
-    if (config) {
-        return new Config(config);
-    } else {
-        var baseConfig = require('config');
-        return new Config(baseConfig);
-    }
-};
+module.exports = new Config();

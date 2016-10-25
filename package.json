@@ -9,7 +9,7 @@
   "scripts": {
     "start": "NODE_CONFIG_DIR=./config node src/cli.js run",
     "dev": "NODE_CONFIG_DIR=./config nodemon src/cli.js run",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jasmine",
     "lt": "lt --port 4949",
     "postinstall": "mkdir -p ~/.ghsync/config && cp config/default.json.placeholder ~/.ghsync/config && test -f ~/.ghsync/config/default.json || cp config/default.json.placeholder ~/.ghsync/config/default.json"
   },
@@ -41,6 +41,7 @@
     "nodemailer-smtp-transport": "^2.7.2"
   },
   "devDependencies": {
+    "jasmine": "^2.5.2",
     "localtunnel": "^1.8.1",
     "nodemon": "^1.11.0"
   }
