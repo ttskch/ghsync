@@ -1,9 +1,6 @@
 'use strict';
 
-var path = require('path');
-
-process.env.NODE_CONFIG_DIR = path.resolve(__dirname + '/fixtures');
-
+process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
 var config = require('../src/config');
 
 describe('get()', function () {
