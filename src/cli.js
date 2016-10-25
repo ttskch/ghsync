@@ -3,7 +3,7 @@
 'use strict';
 
 var meow = require('meow');
-var ghsync = require('./app');
+var ghsync = require('./bootstrap');
 
 var cli = meow(
     'Usage:\n' +

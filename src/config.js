@@ -22,7 +22,7 @@ module.exports = function (config) {
     if (config) {
         return new Config(config);
     } else {
-        var globalConfig = require('config');
-        return new Config(globalConfig);
+        var baseConfig = require('config');
+        return new Config(baseConfig);
     }
 };
