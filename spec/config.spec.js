@@ -4,6 +4,7 @@ process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
 var config = require('../src/config');
 
 describe('get()', function () {
+    
     it('should return correct value', function () {
         expect(config.get('repos')[0]['remote']).toBe('owner/repo');
         expect(config.get('webhook.port')).toBe(4949);

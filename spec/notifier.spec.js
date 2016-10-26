@@ -6,13 +6,13 @@ global.config = require('../src/config');
 var mock = require('mock-require');
 var path = require('path');
 
-var resetMockRequire = function () {
-    delete require.cache[path.resolve(__dirname, '../src/notifier.js')];
-};
-
 describe('sendmail()', function () {
-    beforeEach(resetMockRequire);
-    afterEach(resetMockRequire);
+
+    afterEach(function () {
+        mock.stop('nodemailer');
+        mock.stop('smtpTransport');
+        delete require.cache[path.resolve(__dirname, '../src/notifier.js')];
+    });
 
     it('should call sendMail() method of transporter correctly', function () {
 
@@ -32,7 +32,7 @@ describe('sendmail()', function () {
         }, jasmine.any(Function));
     });
 
-    it('should invoke callback after sendMail() succeeded', function () {
+    it('should invoke callback after sendMail() succeeded', function (done) {
 
         // to succeed.
         generateMockTransporter(true);
@@ -44,10 +44,11 @@ describe('sendmail()', function () {
 
         setTimeout(function () {
             expect(console.log).toHaveBeenCalledWith('email notification sent');
+            done();
         }, 100);
     });
 
-    it('should invoke callback after sendMail() caused error', function () {
+    it('should invoke callback after sendMail() caused error', function (done) {
 
         // to cause error.
         generateMockTransporter(false);
@@ -59,6 +60,7 @@ describe('sendmail()', function () {
 
         setTimeout(function () {
             expect(console.log).toHaveBeenCalledWith('An error occurred');
+            done();
         }, 100);
     });
 });
