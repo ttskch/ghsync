@@ -4,8 +4,16 @@ process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
 global.config = require('../src/config');
 
 var mock = require('mock-require');
+var path = require('path');
+
+var resetMockRequire = function () {
+    delete require.cache[path.resolve(__dirname, '../src/notifier.js')];
+};
 
 describe('sendmail()', function () {
+    beforeEach(resetMockRequire);
+    afterEach(resetMockRequire);
+
     it('should call sendMail() method of transporter correctly', function () {
 
         // to succeed.
