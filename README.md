@@ -1,5 +1,6 @@
 # ghsync
 
+[![Travis](https://img.shields.io/travis/ttskch/ghsync.svg?style=flat-square)](https://travis-ci.org/ttskch/ghsync)
 [![npm version](https://img.shields.io/npm/v/ghsync.svg?style=flat-square)](https://www.npmjs.com/package/ghsync)
 [![npm downloads](https://img.shields.io/npm/dm/ghsync.svg?style=flat-square)](https://www.npmjs.com/package/ghsync)
 
