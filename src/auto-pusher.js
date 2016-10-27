@@ -25,7 +25,7 @@ module.exports.autoPush = function () {
                 var count = 0;
                 watcher
                     .on('all', function (event, path) {
-                        // if some errors is occurring on local repo, do nothing.
+                        // if some errors are occurring on local repo, do nothing.
                         if (global.hasError) {
                             return;
                         }

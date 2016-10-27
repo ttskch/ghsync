@@ -19,6 +19,8 @@ describe('autoPull()', function () {
     afterAll(function () {
         mock.stop('../src/notifier');
         delete require.cache[path.resolve(__dirname, '../src/notifier.js')];
+
+        process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
         global.config = require('../src/config');
     });
 
