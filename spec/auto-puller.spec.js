@@ -1,7 +1,13 @@
 'use strict';
 
-var mock = require('mock-require');
+process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
+global.config = require('../src/config');
+
+var rewire = require('rewire');
 var path = require('path');
+
+var autoPuller = rewire('../src/auto-puller');
+var autoPull = autoPuller.autoPull;
 
 describe('autoPull()', function () {
 
@@ -13,11 +19,11 @@ describe('autoPull()', function () {
                 console.log('sent');
             }
         };
-        mock('../src/notifier', mockNotifier);
+        autoPuller.__set__('notifier', mockNotifier);
     });
 
     afterAll(function () {
-        mock.stop('../src/notifier');
+        // FIXME: I don't know why this code is needed...
         delete require.cache[path.resolve(__dirname, '../src/notifier.js')];
 
         process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
@@ -40,16 +46,10 @@ describe('autoPull()', function () {
         };
     });
 
-    afterEach(function () {
-        mock.stop('child_process');
-        delete require.cache[path.resolve(__dirname, '../src/auto-puller.js')];
-    });
-
     it('should be passed correct git-pull command', function () {
 
         // to succeed.
-        var spyExec = generateMockChildProcess(true);
-        var autoPull = require('../src/auto-puller').autoPull;
+        var spyExec = createSpyExec(true);
 
         var event = {
             payload: {
@@ -67,8 +67,7 @@ describe('autoPull()', function () {
     it('should turn global.hasError true after succeed exec git-pull command', function () {
 
         // to succeed.
-        generateMockChildProcess(true);
-        var autoPull = require('../src/auto-puller').autoPull;
+        createSpyExec(true);
 
         var event = {
             payload: {
@@ -88,8 +87,7 @@ describe('autoPull()', function () {
     it('should turn global.hasError false after fail exec git-pull command', function () {
 
         // to occur error.
-        generateMockChildProcess(false);
-        var autoPull = require('../src/auto-puller').autoPull;
+        createSpyExec(false);
 
         var event = {
             payload: {
@@ -109,8 +107,7 @@ describe('autoPull()', function () {
     it('should send email when git-pull command fail and config.sendmail.enabled is true', function () {
 
         // to occur error.
-        generateMockChildProcess(false);
-        var autoPull = require('../src/auto-puller').autoPull;
+        createSpyExec(false);
 
         var event = {
             payload: {
@@ -130,8 +127,7 @@ describe('autoPull()', function () {
     it('should not send email when git-pull command fail but config.sendmail.enabled is false', function () {
 
         // to occur error.
-        generateMockChildProcess(false);
-        var autoPull = require('../src/auto-puller').autoPull;
+        createSpyExec(false);
 
         var event = {
             payload: {
@@ -153,8 +149,7 @@ describe('autoPull()', function () {
     it('should not send email when git-pull command succeed', function () {
 
         // to succeed.
-        generateMockChildProcess(true);
-        var autoPull = require('../src/auto-puller').autoPull;
+        createSpyExec(true);
 
         var event = {
             payload: {
@@ -174,17 +169,15 @@ describe('autoPull()', function () {
     });
 });
 
-function generateMockChildProcess(toSucceed) {
+function createSpyExec(toSucceed) {
     var spy = jasmine.createSpy('exec');
 
-    var mockChildProcess = {
-        exec: function (cmd, callback) {
-            spy(cmd);
-            callback(toSucceed ? null : 'An error occurred', 'stdout', 'stderr');
-        }
+    var mockExec = function (cmd, callback) {
+        spy(cmd);
+        callback(toSucceed ? null : 'An error occurred', 'stdout', 'stderr');
     };
 
-    mock('child_process', mockChildProcess);
+    autoPuller.__set__('exec', mockExec);
 
     return spy;
 }
