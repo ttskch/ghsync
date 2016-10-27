@@ -3,28 +3,28 @@
 process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
 global.config = require('../src/config');
 
-var mock = require('mock-require');
+var rewire = require('rewire');
 var path = require('path');
+
+var notifier = rewire('../src/notifier');
 
 describe('sendmail()', function () {
 
-    afterEach(function () {
-        mock.stop('nodemailer');
-        mock.stop('smtpTransport');
-        delete require.cache[path.resolve(__dirname, '../src/notifier.js')];
+    beforeAll(function () {
+        notifier.__set__({
+            nodemailer: {},
+            smtpTransport: {}
+        });
     });
 
     it('should call sendMail() method of transporter correctly', function () {
 
         // to succeed.
-        var mockTransporter = generateMockTransporter(true);
-        var notifier = require('../src/notifier');
-
-        spyOn(mockTransporter, 'sendMail');
+        var spyTransporterSendMail = createSpyTransporterSendMail(true);
 
         notifier.sendmail('path', 'stdout', 'stderr');
 
-        expect(mockTransporter.sendMail).toHaveBeenCalledWith({
+        expect(spyTransporterSendMail).toHaveBeenCalledWith({
             from: jasmine.any(String),
             to: jasmine.any(String),
             subject: jasmine.any(String),
@@ -35,8 +35,7 @@ describe('sendmail()', function () {
     it('should invoke callback after sendMail() succeeded', function (done) {
 
         // to succeed.
-        generateMockTransporter(true);
-        var notifier = require('../src/notifier');
+        createSpyTransporterSendMail(true);
 
         spyOn(console, 'log');
 
@@ -51,8 +50,7 @@ describe('sendmail()', function () {
     it('should invoke callback after sendMail() caused error', function (done) {
 
         // to cause error.
-        generateMockTransporter(false);
-        var notifier = require('../src/notifier');
+        createSpyTransporterSendMail(false);
 
         spyOn(console, 'log');
 
@@ -65,32 +63,15 @@ describe('sendmail()', function () {
     });
 });
 
-function generateMockTransporter(toSucceed) {
+function createSpyTransporterSendMail(toSucceed) {
+    var spy = jasmine.createSpy('transporter.sendMail');
 
-    var MockTransporter = function (toSucceed) {
-        this.toSucceed = toSucceed;
-    };
-
-    MockTransporter.prototype = {
+    notifier.__set__('transporter', {
         sendMail: function (options, callback) {
-            callback(this.toSucceed ? null : 'An error occurred', 'res');
+            spy(options, callback);
+            callback(toSucceed ? null : 'An error occurred', 'res');
         }
-    };
+    });
 
-    var mockTransporter = new MockTransporter(toSucceed);
-
-    var mockNodemailer = {
-        createTransport: function (obj) {
-            return mockTransporter;
-        }
-    };
-
-    var mockSmtpTransport = function (obj) {
-        return {};
-    };
-
-    mock('nodemailer', mockNodemailer);
-    mock('smtpTransport', mockSmtpTransport);
-
-    return mockTransporter;
+    return spy;
 }

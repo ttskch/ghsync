@@ -23,9 +23,6 @@ describe('autoPull()', function () {
     });
 
     afterAll(function () {
-        // FIXME: I don't know why this code is needed...
-        delete require.cache[path.resolve(__dirname, '../src/notifier.js')];
-
         process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
         global.config = require('../src/config');
     });
