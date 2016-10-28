@@ -59,7 +59,8 @@ describe('autoPush()', function () {
 
         // jasmine.clock().tick(1000 * commitInterval + 1);
 
-        // FIXME: I don't know why but jasmine.clock() doesn't effect for setTimeout in callback especially in mock by rewire...
+        // FIXME: I don't know why but jasmine.clock() doesn't work for setTimeout in callback especially in mock by rewire...
+        // see https://github.com/jhnns/rewire/issues/101
         setTimeout(function () {
             expect(console.log).toHaveBeenCalledWith('stacked events:', 0);
 
