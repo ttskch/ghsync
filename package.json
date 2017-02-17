@@ -1,6 +1,6 @@
 {
   "name": "ghsync",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sync local git repository and remote GitHub repository automatically.",
   "bin": {
     "ghsync": "src/cli.js"
