@@ -17,9 +17,11 @@ You can resolve this problem with ghsync.
 
 Additionally, if some auto-push and auto-pull conflict, ghsync stops observing soon and sends you a notification email. So you don't have to worry about that ghsync destroys your codebase.
 
+![](https://cloud.githubusercontent.com/assets/4360663/23062161/0f09720e-f548-11e6-855c-16d6cdf883a6.gif)
+
 ## Requirements
 
-This tool requires local git version [1.7.9.6](https://git-scm.com/docs/git-pull/1.7.9.6) or later for using `--no-edit` option for `git pull`. 
+This tool requires local git version [1.7.9.6](https://git-scm.com/docs/git-pull/1.7.9.6) or later for using `--no-edit` option for `git pull`.
 
 ## Installation
 
