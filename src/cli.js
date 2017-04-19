@@ -2,6 +2,10 @@
 
 'use strict';
 
+if (!process.env.NODE_CONFIG_DIR) {
+    process.env.NODE_CONFIG_DIR = (process.env.HOME || process.env.USERPROFILE) + '/.config/ghsync';
+}
+
 var meow = require('meow');
 var ghsync = require('./bootstrap');
 
