@@ -1,10 +1,6 @@
 'use strict';
 
-process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
-global.config = require('../src/config');
-
 var rewire = require('rewire');
-var path = require('path');
 
 var autoPuller = rewire('../src/auto-puller');
 var autoPull = autoPuller.autoPull;
@@ -14,21 +10,15 @@ describe('autoPull()', function () {
     var sendmailEnabled = true;
 
     beforeAll(function () {
-        var mockNotifier = {
+        autoPuller.__set__('notifier', {
             sendmail: function (path, stdout, stderr) {
                 console.log('sent');
             }
-        };
-        autoPuller.__set__('notifier', mockNotifier);
-    });
-
-    afterAll(function () {
-        process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
-        global.config = require('../src/config');
+        });
     });
 
     beforeEach(function () {
-        global.config = {
+        autoPuller.__set__('config', {
             get: function (property) {
                 if (property === 'repos') {
                     return [
@@ -40,7 +30,7 @@ describe('autoPull()', function () {
                     return sendmailEnabled;
                 }
             }
-        };
+        });
     });
 
     it('should be passed correct git-pull command', function () {

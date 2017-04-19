@@ -1,18 +1,19 @@
 'use strict';
 
+var config = require('config');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var transporter = nodemailer.createTransport(smtpTransport(global.config.get('sendmail.smtp')));
 
 var Notifier = function () {
 };
 
 Notifier.prototype = {
     sendmail: function (path, stdout, stderr) {
+        var transporter = nodemailer.createTransport(smtpTransport(config.get('sendmail.smtp')));
         transporter.sendMail({
-            from: global.config.get('sendmail.options.from'),
-            to: global.config.get('sendmail.options.to'),
-            subject: global.config.get('sendmail.options.subjectPrefix') + 'Error occurred in auto git-pull',
+            from: config.get('sendmail.options.from'),
+            to: config.get('sendmail.options.to'),
+            subject: config.get('sendmail.options.subjectPrefix') + 'Error occurred in auto git-pull',
             text: '[path]\n' + path + '\n\n[stdout]\n' + stdout.trim() + '\n\n[stderr]\n' + stderr
         }, function (err, res) {
             if (err) {

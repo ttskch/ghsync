@@ -11,7 +11,7 @@ describe('autoPush()', function () {
     var commitInterval = 0.1;
 
     beforeEach(function () {
-        global.config = {
+        autoPusher.__set__('config', {
             get: function (property) {
                 if (property === 'repos') {
                     return [
@@ -23,12 +23,10 @@ describe('autoPush()', function () {
                     return commitInterval;
                 }
             }
-        };
+        });
     });
 
     afterAll(function () {
-        process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
-        global.config = require('../src/config');
         global.hasError = false;
     });
 
