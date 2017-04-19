@@ -12,7 +12,7 @@ module.exports.autoPush = function () {
 
     config.get('repos').forEach(function (repo) {
         watchers[repo.local] = chokidar.watch(repo.local, {
-            ignored: [/[\/\\]\./].concat(repo.ignores.map(function (v) {
+            ignored: [/[\/\\]\./, '.git'].concat(repo.ignores.map(function (v) {
                 return path.resolve(repo.local, v);
             })),
             awaitWriteFinish: true

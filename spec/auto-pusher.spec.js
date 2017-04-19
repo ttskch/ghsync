@@ -34,9 +34,9 @@ describe('autoPush()', function () {
         autoPush();
 
         expect(spies.chokidar.watch).toHaveBeenCalledTimes(3);
-        expect(spies.chokidar.watch).toHaveBeenCalledWith('local1', jasmine.objectContaining({ ignored: [/[\/\\]\./] }));
-        expect(spies.chokidar.watch).toHaveBeenCalledWith('local2', jasmine.objectContaining({ ignored: [/[\/\\]\./, 'ignore2'] }));
-        expect(spies.chokidar.watch).toHaveBeenCalledWith('local3', jasmine.objectContaining({ ignored: [/[\/\\]\./, 'ignore3.1', /ignore3.2/] }));
+        expect(spies.chokidar.watch).toHaveBeenCalledWith('local1', jasmine.objectContaining({ ignored: [/[\/\\]\./, '.git'] }));
+        expect(spies.chokidar.watch).toHaveBeenCalledWith('local2', jasmine.objectContaining({ ignored: [/[\/\\]\./, '.git', 'ignore2'] }));
+        expect(spies.chokidar.watch).toHaveBeenCalledWith('local3', jasmine.objectContaining({ ignored: [/[\/\\]\./, '.git', 'ignore3.1', /ignore3.2/] }));
     });
 
     it('should watch all events correctly', function () {
