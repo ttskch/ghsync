@@ -37,6 +37,7 @@
     "js-yaml": "^3.8.3",
     "lodash": "^4.16.4",
     "meow": "^3.7.0",
+    "mkdirp": "^0.5.1",
     "nodemailer": "^2.6.4",
     "nodemailer-smtp-transport": "^2.7.2"
   },
