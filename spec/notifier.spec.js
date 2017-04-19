@@ -1,8 +1,5 @@
 'use strict';
 
-process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
-global.config = require('../src/config');
-
 var rewire = require('rewire');
 var path = require('path');
 
@@ -12,8 +9,17 @@ describe('sendmail()', function () {
 
     beforeAll(function () {
         notifier.__set__({
-            nodemailer: {},
-            smtpTransport: {}
+            config: {
+                get: function (property) {
+                    if (property === 'sendmail.options.from') {
+                        return 'from';
+                    } else if (property === 'sendmail.options.to') {
+                        return 'to';
+                    } else if (property === 'sendmail.options.subjectPrefix') {
+                        return 'subjectPrefix'
+                    }
+                }
+            }
         });
     });
 
@@ -66,10 +72,14 @@ describe('sendmail()', function () {
 function createSpyTransporterSendMail(toSucceed) {
     var spy = jasmine.createSpy('transporter.sendMail');
 
-    notifier.__set__('transporter', {
-        sendMail: function (options, callback) {
-            spy(options, callback);
-            callback(toSucceed ? null : 'An error occurred', 'res');
+    notifier.__set__('nodemailer', {
+        createTransport: function () {
+            return {
+                sendMail: function (options, callback) {
+                    spy(options, callback);
+                    callback(toSucceed ? null : 'An error occurred', 'res');
+                }
+            };
         }
     });
 

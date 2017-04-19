@@ -29,18 +29,13 @@ This tool requires local git version [1.7.9.6](https://git-scm.com/docs/git-pull
 $ npm install -g ghsync
 ```
 
-If you install with sudo `--unsafe-perm` is required to generate config file after installation automatically.
-
-```bash
-$ sudo npm install -g ghsync --unsafe-perm
-```
-
 ## Configuration
 
-After installation you have now `~/.ghsync/config/default.json` of configuration file with [initial content](config/default.json.placeholder). Tailor this file.
+At first run `ghsync init` to generate configuration file in `~/.config/ghsync/default.yml` with [initial content](config/default.yml.placeholder) and tailor this file.
 
 ```bash
-$ vi ~/.ghsync/config/default.json
+$ ghsync init
+$ vi ~/.config/ghsync/default.yml
 ```
 
 ### Required properties

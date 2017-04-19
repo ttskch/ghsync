@@ -11,7 +11,7 @@ describe('autoPush()', function () {
     var commitInterval = 0.1;
 
     beforeEach(function () {
-        global.config = {
+        autoPusher.__set__('config', {
             get: function (property) {
                 if (property === 'repos') {
                     return [
@@ -23,12 +23,10 @@ describe('autoPush()', function () {
                     return commitInterval;
                 }
             }
-        };
+        });
     });
 
     afterAll(function () {
-        process.env.NODE_CONFIG_DIR = require('path').resolve(__dirname + '/fixtures');
-        global.config = require('../src/config');
         global.hasError = false;
     });
 
@@ -36,9 +34,9 @@ describe('autoPush()', function () {
         autoPush();
 
         expect(spies.chokidar.watch).toHaveBeenCalledTimes(3);
-        expect(spies.chokidar.watch).toHaveBeenCalledWith('local1', jasmine.objectContaining({ ignored: [/[\/\\]\./] }));
-        expect(spies.chokidar.watch).toHaveBeenCalledWith('local2', jasmine.objectContaining({ ignored: [/[\/\\]\./, 'ignore2'] }));
-        expect(spies.chokidar.watch).toHaveBeenCalledWith('local3', jasmine.objectContaining({ ignored: [/[\/\\]\./, 'ignore3.1', /ignore3.2/] }));
+        expect(spies.chokidar.watch).toHaveBeenCalledWith('local1', jasmine.objectContaining({ ignored: [/[\/\\]\./, '.git'] }));
+        expect(spies.chokidar.watch).toHaveBeenCalledWith('local2', jasmine.objectContaining({ ignored: [/[\/\\]\./, '.git', 'ignore2'] }));
+        expect(spies.chokidar.watch).toHaveBeenCalledWith('local3', jasmine.objectContaining({ ignored: [/[\/\\]\./, '.git', 'ignore3.1', /ignore3.2/] }));
     });
 
     it('should watch all events correctly', function () {

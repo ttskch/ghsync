@@ -1,5 +1,6 @@
 'use strict';
 
+var config = require('config');
 var chokidar = require('chokidar');
 var path = require('path');
 var exec = require('child_process').exec;
@@ -9,9 +10,9 @@ module.exports.autoPush = function () {
 
     var watchers = {};
 
-    global.config.get('repos').forEach(function (repo) {
+    config.get('repos').forEach(function (repo) {
         watchers[repo.local] = chokidar.watch(repo.local, {
-            ignored: [/[\/\\]\./].concat(repo.ignores.map(function (v) {
+            ignored: [/[\/\\]\./, '.git'].concat(repo.ignores.map(function (v) {
                 return path.resolve(repo.local, v);
             })),
             awaitWriteFinish: true
@@ -47,7 +48,7 @@ module.exports.autoPush = function () {
                                     }
                                 });
                             }
-                        }, 1000 * (global.config.get('commitInterval') || 30));
+                        }, 1000 * (config.get('commitInterval') || 30));
                         console.log(event, path);
                     })
                 ;
