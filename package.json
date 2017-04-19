@@ -10,7 +10,7 @@
     "start": "NODE_CONFIG_DIR=./config node src/cli.js run",
     "dev": "NODE_CONFIG_DIR=./config nodemon src/cli.js run",
     "test": "jasmine",
-    "lt": "lt --port 4949",
+    "lt": "lt --port 4949"
   },
   "repository": {
     "type": "git",

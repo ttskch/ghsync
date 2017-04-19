@@ -11,11 +11,15 @@ var ghsync = require('./bootstrap');
 
 var cli = meow(
     'Usage:\n' +
-    '  $ ghsync run\n' +
+    '  $ ghsync init    Initialize config file.\n' +
+    '  $ ghsync run     Start syncing.\n' +
     '\n' +
     'Options:\n' +
     '  -h, --help     Display this help message.\n' +
-    '  -v, --version  Display current version.\n'
+    '  -v, --version  Display current version.\n' +
+    '\n' +
+    'Configure:\n' +
+    '  run `ghsync init` and edit ~/.config/ghsync/default.yml.\n'
     , {
         alias: {
             h: 'help',
