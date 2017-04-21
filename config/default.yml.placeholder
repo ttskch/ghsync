@@ -5,6 +5,10 @@ repos:
       - path/to/dir/or/file/to/be/ignored
       - /absolute/path/is/also/allwoed
       - vendor
+    postPullCmd: "work dir is /path/to/local/repo"
+    postPushCmd:
+      - "array is"
+      - "also allowed"
 
 webhook:
   secret: use same secrets for all repos
