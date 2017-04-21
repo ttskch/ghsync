@@ -7,12 +7,10 @@ var autoPull = autoPuller.autoPull;
 
 describe('autoPull()', function () {
 
-    var sendmailEnabled = true;
-
     beforeAll(function () {
         autoPuller.__set__('notifier', {
             sendmail: function (path, stdout, stderr) {
-                console.log('sent');
+                console.log('called');
             }
         });
     });
@@ -26,8 +24,6 @@ describe('autoPull()', function () {
                         { remote: 'remote2', local: 'local2' },
                         { remote: 'remote3', local: 'local3' }
                     ];
-                } else if (property === 'sendmail.enabled') {
-                    return sendmailEnabled;
                 }
             }
         });
@@ -91,9 +87,9 @@ describe('autoPull()', function () {
         expect(global.hasError).toBe(true);
     });
 
-    it('should send email when git-pull command fail and config.sendmail.enabled is true', function () {
+    it('should call email notifier when git-pull command fail', function () {
 
-        // to occur error.
+        // to succeed.
         createSpyExec(false);
 
         var event = {
@@ -108,29 +104,7 @@ describe('autoPull()', function () {
 
         autoPull(event);
 
-        expect(console.log).toHaveBeenCalledWith('sent');
-    });
-
-    it('should not send email when git-pull command fail but config.sendmail.enabled is false', function () {
-
-        // to occur error.
-        createSpyExec(false);
-
-        var event = {
-            payload: {
-                repository: {
-                    full_name: 'remote2'
-                }
-            }
-        };
-
-        sendmailEnabled = false;
-
-        spyOn(console, 'log');
-
-        autoPull(event);
-
-        expect(console.log).not.toHaveBeenCalledWith('sent');
+        expect(console.log).toHaveBeenCalledWith('called');
     });
 
     it('should not send email when git-pull command succeed', function () {
@@ -141,18 +115,16 @@ describe('autoPull()', function () {
         var event = {
             payload: {
                 repository: {
-                    full_name: 'remote3'
+                    full_name: 'remote2'
                 }
             }
         };
-
-        sendmailEnabled = true;
 
         spyOn(console, 'log');
 
         autoPull(event);
 
-        expect(console.log).not.toHaveBeenCalledWith('sent');
+        expect(console.log).not.toHaveBeenCalledWith('called');
     });
 });
 

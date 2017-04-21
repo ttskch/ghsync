@@ -7,11 +7,15 @@ var notifier = rewire('../src/notifier');
 
 describe('sendmail()', function () {
 
+    var sendmailEnabled;
+
     beforeAll(function () {
         notifier.__set__({
             config: {
                 get: function (property) {
-                    if (property === 'sendmail.options.from') {
+                    if (property === 'sendmail.enabled') {
+                        return sendmailEnabled;
+                    } else if (property === 'sendmail.options.from') {
                         return 'from';
                     } else if (property === 'sendmail.options.to') {
                         return 'to';
@@ -21,6 +25,21 @@ describe('sendmail()', function () {
                 }
             }
         });
+    });
+
+    beforeEach(function () {
+        sendmailEnabled = true;
+    });
+
+    it('should not call sendMail() method of transporter when config.endmail.enabled is false', function () {
+
+        var spyTransporterSendMail = jasmine.createSpy('transporter.sendMail');
+
+        sendmailEnabled = false;
+
+        notifier.sendmail('path', 'stdout', 'stderr');
+
+        expect(spyTransporterSendMail).not.toHaveBeenCalled();
     });
 
     it('should call sendMail() method of transporter correctly', function () {

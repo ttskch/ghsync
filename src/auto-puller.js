@@ -14,10 +14,7 @@ module.exports.autoPull = function (event) {
                 if (err) {
                     global.hasError = true;
                     console.log(stderr);
-
-                    if (config.get('sendmail.enabled')) {
-                        notifier.sendmail(repo.local, stdout, stderr);
-                    }
+                    notifier.sendmail(repo.local, stdout, stderr);
                 } else {
                     global.hasError = false;
                 }

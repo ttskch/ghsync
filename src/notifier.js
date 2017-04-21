@@ -9,6 +9,11 @@ var Notifier = function () {
 
 Notifier.prototype = {
     sendmail: function (path, stdout, stderr) {
+        // if sendmail.enabled is false, do nothing.
+        if (!config.get('sendmail.enabled')) {
+            return;
+        }
+
         var transporter = nodemailer.createTransport(smtpTransport(config.get('sendmail.smtp')));
         transporter.sendMail({
             from: config.get('sendmail.options.from'),
