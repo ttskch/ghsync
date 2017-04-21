@@ -51,7 +51,7 @@ describe('autoPull()', function () {
         expect(spyExec).toHaveBeenCalledWith('cd local1 && git pull origin master --no-edit');
     });
 
-    it('should turn global.hasError true after succeed exec git-pull command', function () {
+    it('should turn global.hasError false after succeed exec git-pull command', function () {
 
         // to succeed.
         createSpyExec(true);
@@ -71,7 +71,7 @@ describe('autoPull()', function () {
         expect(global.hasError).toBe(false);
     });
 
-    it('should turn global.hasError false after fail exec git-pull command', function () {
+    it('should turn global.hasError true after fail exec git-pull command', function () {
 
         // to occur error.
         createSpyExec(false);
