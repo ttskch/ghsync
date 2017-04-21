@@ -33,7 +33,7 @@ describe('autoPull()', function () {
         });
     });
 
-    it('should be passed correct git-pull command', function () {
+    it('should exec correct git-pull command', function () {
 
         // to succeed.
         var spyExec = createSpyExec(true);
@@ -48,7 +48,7 @@ describe('autoPull()', function () {
 
         autoPull(event);
 
-        expect(spyExec).toHaveBeenCalledWith('cd local1 && git pull origin master --no-edit');
+        expect(spyExec).toHaveBeenCalledWith('git pull origin master --no-edit', {cwd: 'local1'});
     });
 
     it('should turn global.hasError false after succeed exec git-pull command', function () {
@@ -159,8 +159,8 @@ describe('autoPull()', function () {
 function createSpyExec(toSucceed) {
     var spy = jasmine.createSpy('exec');
 
-    var mockExec = function (cmd, callback) {
-        spy(cmd);
+    var mockExec = function (cmd, options, callback) {
+        spy(cmd, options);
         callback(toSucceed ? null : 'An error occurred', 'stdout', 'stderr');
     };
 

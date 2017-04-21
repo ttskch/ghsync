@@ -7,9 +7,9 @@ var notifier = require('./notifier');
 module.exports.autoPull = function (event) {
     config.get('repos').forEach(function (repo) {
         if (event.payload.repository.full_name === repo.remote) {
-            var cmd = 'cd ' + repo.local + ' && git pull origin master --no-edit';
-            console.log(cmd);
-            exec(cmd, function (err, stdout, stderr) {
+            var cmd = 'git pull origin master --no-edit';
+            console.log(cmd, repo.local);
+            exec(cmd, {cwd: repo.local}, function (err, stdout, stderr) {
                 console.log(stdout);
                 if (err) {
                     global.hasError = true;

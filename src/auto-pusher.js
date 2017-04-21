@@ -22,7 +22,7 @@ module.exports.autoPush = function () {
     _.forEach(watchers, function (watcher, rootPath) {
         watcher
             .on('ready', function () {
-                var cmd = 'cd ' + rootPath + ' && git pull origin master --no-edit && git add . && git commit -m "Automatically committed" && git push origin master';
+                var cmd = 'git pull origin master --no-edit && git add . && git commit -m "Automatically committed" && git push origin master';
                 var count = 0;
                 watcher
                     .on('all', function (event, path) {
@@ -40,8 +40,8 @@ module.exports.autoPush = function () {
                             console.log('stacked events:', count);
 
                             if (count === 0) {
-                                console.log(cmd);
-                                exec(cmd, function (err, stdout, stderr) {
+                                console.log(cmd, rootPath);
+                                exec(cmd, {cwd: rootPath}, function (err, stdout, stderr) {
                                     console.log(stdout);
                                     if (err) {
                                         console.log(stderr);

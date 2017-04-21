@@ -62,10 +62,10 @@ describe('autoPush()', function () {
         setTimeout(function () {
             expect(console.log).toHaveBeenCalledWith('stacked events:', 0);
 
-            var cmd = 'cd ROOT_PATH && git pull origin master --no-edit && git add . && git commit -m "Automatically committed" && git push origin master';
-            expect(spies.exec).toHaveBeenCalledWith(cmd.replace(/ROOT_PATH/, 'local1'), jasmine.any(Function));
-            expect(spies.exec).toHaveBeenCalledWith(cmd.replace(/ROOT_PATH/, 'local2'), jasmine.any(Function));
-            expect(spies.exec).toHaveBeenCalledWith(cmd.replace(/ROOT_PATH/, 'local3'), jasmine.any(Function));
+            var cmd = 'git pull origin master --no-edit && git add . && git commit -m "Automatically committed" && git push origin master';
+            expect(spies.exec).toHaveBeenCalledWith(cmd, {cwd: 'local1'}, jasmine.any(Function));
+            expect(spies.exec).toHaveBeenCalledWith(cmd, {cwd: 'local2'}, jasmine.any(Function));
+            expect(spies.exec).toHaveBeenCalledWith(cmd, {cwd: 'local3'}, jasmine.any(Function));
 
             done();
         }, 1000 * commitInterval + 1);
