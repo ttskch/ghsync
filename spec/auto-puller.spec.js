@@ -107,7 +107,7 @@ describe('autoPull()', function () {
         expect(console.log).toHaveBeenCalledWith('called');
     });
 
-    it('should not send email when git-pull command succeed', function () {
+    it('should not call email notifier when git-pull command succeed', function () {
 
         // to succeed.
         createSpyExec(true);
